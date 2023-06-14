@@ -11,11 +11,16 @@ leitorRoutes.get('/obterTodos', async (req: Request, res: Response) => {
   res.json(await leitorRepository.pegarTodos())
 })
 
+leitorRoutes.get('/obterPeloId', async (req: Request, res: Response) => {
+  let id: number = req.body.id
+  let autorRepository = new LeitorRepository()
+
+  res.json(await autorRepository.pegarPeloId(id))
+})
+
 leitorRoutes.post('/cadastrar', async (req: Request, res: Response) => {
   let leitor = new LeitorDTO(req.body.nome, req.body.email, req.body.cpf, req.body.senha) 
   let leitorRepository = new LeitorRepository()
-
-  console.log(leitor.CPF)
 
   res.json(await leitorRepository.gravar(leitor))
 })

@@ -1,26 +1,25 @@
 import { Database } from "../db/db"
-import { LeitorDTO } from "../dto/leitorDTO"
-import { LeitorLoginDTO } from "../dto/leitorLogin"
+import { AutorDTO } from "../dto/autorDTO"
 
-export class LeitorRepository {
+export class AutorRepository {
   private database
 
   constructor() {
     this.database = new Database()
   }
 
-  async gravar(leitor: LeitorDTO) {
+  async gravar(autor: AutorDTO) {
     let db = await this.database.connection()
-    let result = null
-
     if (!db) return
-    
+
     let sql = `
-    insert into leitor values("${leitor.Nome}", "${leitor.Email}", "${leitor.CPF}", "${leitor.Senha}")
+      insert into autor 
+      values("${autor.Nome}")
     `
     
     try {
-      result = await db.run(sql)
+      let result = await db.run(sql)
+      return result?.lastID
     } 
     catch (error) {
       return error
@@ -28,8 +27,6 @@ export class LeitorRepository {
     finally {
       await db.close()
     }
-
-    return result?.lastID
   }
 
   async pegarTodos() {
@@ -38,14 +35,12 @@ export class LeitorRepository {
 
     let sql = `
       select 
-        rowid, nome, email, cpf, senha
-      from leitor;
+        rowid, nome
+      from autor;
     `
 
     try {
-      let result = await db.all(sql)
-
-      return result
+      return await db.all(sql)
     }
     catch (error) {
       return error
@@ -60,33 +55,9 @@ export class LeitorRepository {
     if (!db) return
 
     let sql = `
-      select rowid, nome, email, cpf, senha
-      from leitor
+      select rowid, nome
+      from autor
       where rowid = ${id}
-    `
-
-    try {
-      return await db.get(sql)
-    } 
-    catch (error) {
-      return error
-    }
-    finally {
-      await db.close()
-    }
-  }
-
-  async login(login: LeitorLoginDTO) {
-    let db = await this.database.connection()
-    if (!db) return
-
-    let sql = `
-      select 
-        rowid
-      from leitor
-      where 
-        email = '${login.Email}' and
-        senha = '${login.Senha}';
     `
 
     try {
@@ -106,7 +77,7 @@ export class LeitorRepository {
 
     let sql = `
       delete
-      from leitor
+      from autor
       where rowid = ${id}
     `
 

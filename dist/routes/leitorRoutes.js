@@ -13,10 +13,14 @@ exports.leitorRoutes.get('/obterTodos', async (req, res) => {
     let leitorRepository = new leitorRepository_1.LeitorRepository();
     res.json(await leitorRepository.pegarTodos());
 });
+exports.leitorRoutes.get('/obterPeloId', async (req, res) => {
+    let id = req.body.id;
+    let autorRepository = new leitorRepository_1.LeitorRepository();
+    res.json(await autorRepository.pegarPeloId(id));
+});
 exports.leitorRoutes.post('/cadastrar', async (req, res) => {
     let leitor = new leitorDTO_1.LeitorDTO(req.body.nome, req.body.email, req.body.cpf, req.body.senha);
     let leitorRepository = new leitorRepository_1.LeitorRepository();
-    console.log(leitor.CPF);
     res.json(await leitorRepository.gravar(leitor));
 });
 exports.leitorRoutes.get('/login', async (req, res) => {
