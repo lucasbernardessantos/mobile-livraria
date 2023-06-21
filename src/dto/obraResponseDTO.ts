@@ -2,8 +2,8 @@ import { AutorDTO } from "./autorDTO";
 
 export class ObraResponseDTO {
   constructor(
+    private id: number,
     private titulo: string,
-    private autor: AutorDTO,
-    private id?: number
+    private autor: AutorDTO
   ) {}
 }

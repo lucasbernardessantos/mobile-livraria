@@ -47,7 +47,7 @@ export class ObraRepository {
 
       for(let i = 0; i < resultado.length; i++) {
         let autor = await autorRepository.pegarPeloId(resultado[i].autor)
-        let obra = new ObraResponseDTO(resultado[i].titulo, autor, resultado[i].rowid)
+        let obra = new ObraResponseDTO(resultado[i].rowid, resultado[i].titulo, autor)
         obraResponse.push(obra)
       }
 
@@ -75,12 +75,12 @@ export class ObraRepository {
     try {
       let resultado = await db.get(sql)
       let autor = await autorRepository.pegarPeloId(resultado.autor)
-      let obraResponse = new ObraResponseDTO(resultado.titulo, autor, resultado.rowid)
+      let obraResponse = new ObraResponseDTO(resultado.rowid, resultado.titulo, autor)
       
       return obraResponse
     } 
     catch (error) {
-      return error
+      console.log(error); 
     }
     finally {
       await db.close()

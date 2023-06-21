@@ -35,7 +35,7 @@ export class AutorRepository {
 
     let sql = `
       select 
-        rowid, nome
+        rowid as id, nome
       from autor;
     `
 
@@ -55,7 +55,7 @@ export class AutorRepository {
     if (!db) return
 
     let sql = `
-      select rowid, nome
+      select rowid as id, nome
       from autor
       where rowid = ${id}
     `

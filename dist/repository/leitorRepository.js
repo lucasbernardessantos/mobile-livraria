@@ -31,7 +31,7 @@ class LeitorRepository {
             return;
         let sql = `
       select 
-        rowid, nome, email, cpf, senha
+        rowid as id, nome, email, cpf, senha
       from leitor;
     `;
         try {
@@ -50,7 +50,7 @@ class LeitorRepository {
         if (!db)
             return;
         let sql = `
-      select rowid, nome, email, cpf, senha
+      select rowid as id, nome, email, cpf, senha
       from leitor
       where rowid = ${id}
     `;
